@@ -30,7 +30,7 @@ subprocess.run(
         "git",
         "remote",
         "rm",
-        "pull340913",
+        "pull",
     ],
     stdout=subprocess.PIPE,
 )
@@ -39,8 +39,8 @@ subprocess.run(
         "git",
         "remote",
         "add",
-        "pull340913",
-        "https://github.com/baalajimaestro/Telegram-UserBot"
+        "pull",
+        "https://github.com/Yasir-siddiqui/Telegram-UserBot"
     ],
     stdout=subprocess.PIPE,
 )
@@ -48,7 +48,7 @@ subprocess.run(
     [
         "git",
         "pull",
-        "pull340913",
+        "pull",
         "modular",
     ],
     stdout=subprocess.PIPE,
