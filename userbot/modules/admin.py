@@ -28,22 +28,22 @@ async def wizzard(e):
             invite_link=True,
         )
         if not (await e.get_reply_message()):
-            await e.edit("`Give a reply message`")
+            await e.edit("`Reply To A message`")
             return
         elif not rights and rights3:
             rights=rights2
         elif not rights and not rights3:
             rights=None
-        await e.edit("`Trying a promote.....`")
+        await e.edit("`Wait plox :}`")
         time.sleep(3)
         try:
             await bot(
             EditAdminRequest(e.chat_id, (await e.get_reply_message()).sender_id, rights)
             )
         except Exception as er:
-            await e.edit("`You Don't have sufficient permissions to paramod`")
+            await e.edit("`You Don't have sufficient permissions to promote :(`")
             return
-        await e.edit("`Promoted Successfully!`")
+        await e.edit("`Succesfully Promoted`")
 
 
 @bot.on(events.NewMessage(outgoing=True, pattern="^.demote$"))
@@ -63,19 +63,19 @@ async def wizzard(e):
         rights = chat.admin_rights
         rights2 = chat.creator
         if not (await e.get_reply_message()):
-            await e.edit("`Give a reply message`")
+            await e.edit("`Reply To A message`")
             return
         if not rights and not rights2:
             await e.edit("`You aren't an admin!`")
             return
-        await e.edit("`Trying a demote.....`")
+        await e.edit("`Wait Plox :}`")
         time.sleep(3)
         try:
             await bot(
             EditAdminRequest(e.chat_id, (await e.get_reply_message()).sender_id, rights)
             )
         except Exception as er:
-            await e.edit("`You Don't have sufficient permissions to demhott`")
+            await e.edit("`You Don't have sufficient permissions to demote`")
             return
         await e.edit("`Demoted Successfully!`")
 
@@ -98,7 +98,7 @@ async def thanos(e):
         if (await e.get_reply_message()).sender_id in BRAIN_CHECKER:
             await e.edit("`Ban Error! I am not supposed to ban this user`")
             return
-        await e.edit("`Whacking the pest!`")
+        await e.edit("`Wudu hek`")
         time.sleep(5)
         try:
             await bot(
