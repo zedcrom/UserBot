@@ -25,6 +25,13 @@ async def lol(e):
         t = t[:-1] + "_-"
         await e.edit(t)
 
+@bot.on(events.NewMessage(outgoing=True, pattern="^;_;$"))
+@bot.on(events.MessageEdited(outgoing=True, pattern="^;_;$"))
+async def fun(e):
+    t = ";_;"
+    for j in range(10):
+        t = t[:-1] + "_;"
+        await e.edit(t)
 
 @bot.on(events.NewMessage(outgoing=True, pattern="^.cp"))
 @bot.on(events.MessageEdited(outgoing=True, pattern="^.cp"))
