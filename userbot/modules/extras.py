@@ -2,6 +2,7 @@ import asyncio
 from userbot import bot
 from telethon import events
 from telethon.tl.functions.contacts import BlockRequest
+from telethon.tl.functions.channels import LeaveChannelRequest, ExportInviteRequest, CreateChannelRequest, DeleteMessagesRequest
 
 @bot.on(events.NewMessage(outgoing=True, pattern='^\.timer '))
 @bot.on(events.MessageEdited(outgoing=True, pattern='^\.timer '))
@@ -66,3 +67,12 @@ async def blocks(e):
             await bot(BlockRequest(await bot.get_input_entity(e.chat_id)))
         else:
             await e.edit('`In PM sar`')
+
+@bot.on(events.NewMessage(outgoing=True, pattern="^.leave$"))
+@bot.on(events.MessageEdited(outgoing=True, pattern="^.leave$"))
+async def leave(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        if '-' in str(e.chat_id):
+            await bot(LeaveChannelRequest(e.chat_id))
+        else:
+            await e.edit('`Sar This is Not A Chat`')
