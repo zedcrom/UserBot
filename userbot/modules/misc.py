@@ -219,7 +219,7 @@ async def bot_support(e):
 @bot.on(events.MessageEdited(outgoing=True, pattern="^.repo$"))
 async def repo_is_here(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        await e.edit("https://github.com/baalajimaestro/Telegram-UserBot/")
+        await e.edit("https://github.com/Yasir-siddiqui/Telegram-UserBot/")
 
 
 @bot.on(events.NewMessage(outgoing=True, pattern="^.supportchannel$"))
