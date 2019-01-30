@@ -1,6 +1,7 @@
 import asyncio
 from userbot import bot
 from telethon import events
+from telethon.tl.functions.contacts import BlockRequest
 
 @bot.on(events.NewMessage(outgoing=True, pattern='^\.timer '))
 @bot.on(events.MessageEdited(outgoing=True, pattern='^\.timer '))
@@ -57,3 +58,11 @@ async def sedit_blankx(e):
 		await asyncio.sleep(0.25)
 		await f.delete()
 
+@bot.on(events.NewMessage(outgoing=True, pattern="^.block$"))
+@bot.on(events.MessageEdited(outgoing=True, pattern="^.block$"))
+async def blocks(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        if '-' not in str(e.chat_id):
+            await bot(BlockRequest(await bot.get_input_entity(e.chat_id)))
+        else:
+            await e.edit('`In PM sar`')
