@@ -1,6 +1,7 @@
-import asyncio
+import asyncio, subprocess
 from userbot import bot
 from telethon import events
+from telethon.events import StopPropagation
 from telethon.tl.functions.contacts import BlockRequest
 from telethon.tl.functions.channels import LeaveChannelRequest, ExportInviteRequest, CreateChannelRequest, DeleteMessagesRequest
 
@@ -76,3 +77,11 @@ async def leave(e):
             await bot(LeaveChannelRequest(e.chat_id))
         else:
             await e.edit('`Sar This is Not A Chat`')
+
+@bot.on(events.NewMessage(outgoing=True, pattern="^.speedtest$"))
+@bot.on(events.MessageEdited(outgoing=True, pattern="^.speedtest$"))
+async def speedtest(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        l = await e.reply("`Running Speedtest Simple...`")
+        k=subprocess.run(['speedtest', '--simple'], stdout=subprocess.PIPE)
+        await l.edit("`" + k.stdout.decode()[:-1] + "`")
