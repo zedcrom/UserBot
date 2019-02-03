@@ -85,3 +85,13 @@ async def speedtest(e):
         l = await e.reply("`Running Speedtest Simple...`")
         k=subprocess.run(['speedtest', '--simple'], stdout=subprocess.PIPE)
         await l.edit("`" + k.stdout.decode()[:-1] + "`")
+
+@bot.on(events.NewMessage(pattern='^\.figlet (.+)'))
+@bot.on(events.MessageEdited(pattern='^\.figlet (.+)'))
+async def figlety(e):
+	l=['figlet']
+	l+=e.pattern_match.group(1).split(' ')
+	p='```'
+	p+=subprocess.run(l, stdout=subprocess.PIPE).stdout.decode()
+	p+='```'
+	await e.edit(p)
