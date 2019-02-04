@@ -22,3 +22,4 @@ python-dotenv
 aiohttp
 git+https://github.com/tulir/telethon-session-sqlalchemy
 urbandict
+lmgtfy
