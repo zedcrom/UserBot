@@ -193,6 +193,46 @@ For using Heroku CLI on termux, please Google on it.
 `.download`
 `.getqr`
 
+### Extras 
+`;_;` (Same as -_-)
+
+`.fp`:face palm emoji
+
+`.cry`:Cry
+
+`.timer` Text It will delete the message in 10 seconds.
+
+`.stimer`
+`.time`
+`.stime`
+`.sedit`
+`.sedita` These Commands Are useless For You Guys.
+
+`.block`: Block the User.
+
+`.leave`: Leave Chat.
+
+`.info`: Reply to a message to get users info.
+
+`.git`: .git {username} to get info about that GitHub users.
+
+`.count`: .count will give your stats try once you'll get.
+
+`.unbanall`: Unban All Users From a Group.
+
+`.kick {}`: kick the users which u want to kick, Eg: d=Deleted Accounts.
+
+`.disapprove`: Disapprove The User To Pm You.
+
+`.speedtest`: This will run speedtest --simple.
+
+`.figlet` `.toilet`: You Know about this.
+
+`.cs`: Cowsay command.
+
+`.nou`: same as Owo But Nou haha.
+Note Some commands Like `.cs` `.figlet` `.toilet`: Won't work On Heroku.
+
 ### Creating your own modules.
 
 Creating a module has been simplified as much as possible - but do not hesitate to suggest further simplification.
