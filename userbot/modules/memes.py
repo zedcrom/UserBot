@@ -439,3 +439,38 @@ async def facepalm(e):
 async def cry(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         await e.edit("(;´༎ຶД༎ຶ)")
+
+@bot.on(events.NewMessage(outgoing=True, pattern="^.nou"))
+@bot.on(events.MessageEdited(outgoing=True, pattern="^.nou"))
+async def nou(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        textx = await e.get_reply_message()
+        message=e.text
+        if message[5:]:
+            message = str(message[5:])
+        elif textx:
+            message = textx
+            message = str(message.message)
+        faces = [
+            ";;n;;",
+            "NoU",
+            "nonota",
+            "nOnoU",
+            "^nononou^",
+            "NonononoI",
+            ";;;;;_____;;;;;",
+            "nUNoNuo",
+            "nnnnnnnnoooooouuuu",
+            ";-;",
+            "**NonONuO*",
+            "nUnoUuuuuuuNou",
+        ]
+        reply_text = re.sub(r"(r|l)", "N", message)
+        reply_text = re.sub(r"(R|L)", "noU", reply_text)
+        reply_text = re.sub(r"n([aeiou])", r"ny\1", reply_text)
+        reply_text = re.sub(r"N([aeiouAEIOU])", r"Ny\1", reply_text)
+        reply_text = re.sub(r"\!+", " " + random.choice(faces), reply_text)
+        reply_text = reply_text.replace("ove", "uv")
+        reply_text += " " + random.choice(faces)
+        await e.edit(reply_text)
+
