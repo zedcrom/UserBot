@@ -154,7 +154,7 @@ async def zal(e):
 async def faces(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         textx = await e.get_reply_message()
-        message=e.text
+        message = e.text
         if message[5:]:
             message = str(message[5:])
         elif textx:
