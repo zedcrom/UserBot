@@ -2,8 +2,9 @@ import asyncio, subprocess
 from userbot import bot, LOGGER, LOGGER_GROUP
 from telethon import events
 from telethon.events import StopPropagation
+from telethon.tl.functions.messages import ExportChatInviteRequest
 from telethon.tl.functions.contacts import BlockRequest
-from telethon.tl.functions.channels import LeaveChannelRequest, ExportInviteRequest, CreateChannelRequest, DeleteMessagesRequest
+from telethon.tl.functions.channels import LeaveChannelRequest, CreateChannelRequest, DeleteMessagesRequest
 from lmgtfy import lmgtfy
 
 @bot.on(events.NewMessage(outgoing=True, pattern='^\.timer '))

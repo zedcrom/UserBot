@@ -2,7 +2,7 @@ from userbot import bot
 from telethon import events
 
 from telethon.tl.functions.channels import EditBannedRequest
-from telethon.tl.types import ChannelBannedRights
+from telethon.tl.types import ChatBannedRights
 from datetime import datetime, timedelta
 from telethon.errors import UserAdminInvalidError, FloodWaitError, UserNotParticipantError, ChatAdminRequiredError
 from telethon.tl.types import UserStatusEmpty, UserStatusLastMonth, UserStatusLastWeek, UserStatusOffline, UserStatusOnline, UserStatusRecently
