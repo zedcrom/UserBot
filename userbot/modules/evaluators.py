@@ -1,10 +1,7 @@
 import asyncio
-import inspect
 import subprocess
 
-import hastebin
-from telethon import TelegramClient, events
-from telethon.events import StopPropagation
+from telethon import events
 
 from userbot import *
 from userbot import bot
@@ -19,11 +16,11 @@ async def evaluate(e):
             return
         evaluation = eval(e.text[6:])
         if evaluation:
-          if type(evaluation) == "str":
-            if len(evaluation) > 4096:
-                f = open("output.txt", "w+")
-                f.write(evaluation)
-                f.close()
+            if isinstance(evaluation) == "str":
+                if len(evaluation) > 4096:
+                    f = open("output.txt", "w+")
+                    f.write(evaluation)
+                    f.close()
                 await bot.send_file(
                     e.chat_id,
                     "output.txt",
@@ -31,23 +28,23 @@ async def evaluate(e):
                     caption="`Output too large, sending as file`",
                 )
                 subprocess.run(["rm", "sender.txt"], stdout=subprocess.PIPE)
-          await e.edit(
-                "**Query: **\n`"
-                + e.text[6:]
-                + "`\n**Result: **\n`"
-                + str(evaluation)
-                + "`"
-           )
-        else:
-            await e.edit(
-                "**Query: **\n`"
-                + e.text[6:]
-                + "`\n**Result: **\n`No Result Returned/False`"
-            )
-        if LOGGER:
-            await bot.send_message(
-                LOGGER_GROUP, "Eval query " + e.text[6:] + " was executed successfully"
-            )
+        await e.edit(
+            "**Query: **\n`"
+            + e.text[6:]
+            + "`\n**Result: **\n`"
+            + str(evaluation)
+            + "`"
+        )
+    else:
+        await e.edit(
+            "**Query: **\n`"
+            + e.text[6:]
+            + "`\n**Result: **\n`No Result Returned/False`"
+        )
+    if LOGGER:
+        await bot.send_message(
+            LOGGER_GROUP, "Eval query " + e.text[6:] + " was executed successfully"
+        )
 
 
 @bot.on(events.NewMessage(outgoing=True, pattern=r"^.exec (.*)"))
@@ -58,7 +55,8 @@ async def run(e):
             await e.edit("`Exec isn't permitted on channels`")
             return
         code = e.raw_text[5:]
-        exec(f"async def __ex(e): " + "".join(f"\n {l}" for l in code.split("\n")))
+        exec(f"async def __ex(e): " + ""
+             .join(f"\n {l}" for l in code.split("\n")))
         result = await locals()["__ex"](e)
         if result:
             if len(result) > 4096:
@@ -72,8 +70,12 @@ async def run(e):
                     caption="`Output too large, sending as file`",
                 )
                 subprocess.run(["rm", "output.txt"], stdout=subprocess.PIPE)
+
             await e.edit(
-                "**Query: **\n`" + e.text[5:] + "`\n**Result: **\n`" + str(result) + "`"
+                "**Query: **\n`"
+                + e.text[5:]
+                + "`\n**Result: **\n`"
+                + str(result) + "`"
             )
         else:
             await e.edit(
@@ -83,10 +85,13 @@ async def run(e):
                 + "No Result Returned/False"
                 + "`"
             )
+
         if LOGGER:
             await bot.send_message(
-                LOGGER_GROUP, "Exec query " + e.text[5:] + " was executed successfully"
+                LOGGER_GROUP,
+                "Exec query " + e.text[5:] + " was executed successfully"
             )
+
 
 
 @bot.on(events.NewMessage(outgoing=True, pattern=r"^\.term (.+)"))
