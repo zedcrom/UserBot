@@ -101,6 +101,7 @@ try:
 except NameError:
     API_KEY = os.environ.get("API_KEY", None)
     API_HASH = os.environ.get("API_HASH", None)
+    SUBPROCESS_ANIM = os.environ.get("SUBPROCESS_ANIM", None)
     LOGGER_GROUP = int(os.environ.get("LOGGER_GROUP","0"))
     LOGGER = os.environ.get(
         "LOGGER", None

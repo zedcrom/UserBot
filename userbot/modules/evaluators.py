@@ -5,6 +5,7 @@ import asyncio
 from userbot import *
 from telethon import TelegramClient, events
 from userbot import bot
+from userbot import SUBPROCESS_ANIM
 from telethon.events import StopPropagation
 
 
@@ -87,35 +88,56 @@ async def run(e):
             )
 
 
-@bot.on(events.NewMessage(outgoing=True, pattern="^.term"))
-@bot.on(events.MessageEdited(outgoing=True, pattern="^.term"))
-async def terminal_runner(e):
+@bot.on(events.NewMessage(outgoing=True, pattern=r"^\.term (.+)"))
+@bot.on(events.MessageEdited(outgoing=True, pattern=r"^\.term (.+)"))
+async def terminal(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
         if e.is_channel and not e.is_group:
             await e.edit("`Term Commands aren't permitted on channels`")
             return
-        message = e.text
-        command = str(message)
-        command=str(command[6:])
-        process = await asyncio.create_subprocess_shell(command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+    cmd = e.pattern_match.group(1)
+
+    await e.edit("`Connecting..`")
+
+    start_time = time.time() + 10
+    process = await asyncio.create_subprocess_shell(
+        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+
+    OUTPUT = f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**Output:**\n"
+
+    if not SUBPROCESS_ANIM:
         stdout, stderr = await process.communicate()
-        result = str(stdout.decode().strip())
-        if len(result) > 4096:
-            f = open("output.txt", "w+")
-            f.write(result)
-            f.close()
-            await bot.send_file(
-                e.chat_id,
-                "sender.txt",
-                reply_to=e.id,
-                caption="`Output too large, sending as file`",
-            )
-            subprocess.run(["rm", "output.txt"], stdout=subprocess.PIPE)
-        await e.edit(
-            "**Terminal Query: **\n`" + command + "`\n**Output: **\n`" + result + "`"
-        )
-        if LOGGER:
-            await bot.send_message(
-                LOGGER_GROUP,
-                "Terminal Command " + command + " was executed sucessfully",
-            )
+
+        if len(stdout) > 4096:
+            await e.reply(f"{OUTPUT}\n__Process killed:__ `Messasge too long`")
+            return
+
+        await e.edit(f"{OUTPUT}`{stdout.decode()}`")
+        return
+
+
+    while process:
+        if time.time() > start_time:
+            await e.edit(f"{OUTPUT}\n__Process killed__: `Time limit reached`")
+            break
+
+        stdout = await process.stdout.readline()
+
+        if not stdout:
+            _, stderr = await process.communicate()
+            if stderr.decode():
+                OUTPUT += f"`{stderr.decode()}`"
+                await e.edit(OUTPUT)
+                break
+
+        if stdout:
+            OUTPUT += f"`{stdout.decode()}`"
+
+        if len(OUTPUT) > 4096:
+            await e.reply(f"{OUTPUT}\n__Process killed:__ `Messasge too long`")
+            break
+        try:
+            await e.edit(OUTPUT)
+        except Exception:
+            break
