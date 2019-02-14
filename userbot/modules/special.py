@@ -20,7 +20,7 @@ async def _(event):
         await event.edit("Searching Participant Lists.")
         p = 0
         async for i in bot.iter_participants(event.chat_id, filter=ChannelParticipantsKicked, aggressive=True):
-            rights = ChannelBannedRights(
+            rights = ChatBannedRights(
                 until_date=0,
                 view_messages=False
             )
@@ -56,10 +56,7 @@ async def _(event):
     await event.edit("Searching Participant Lists.")
     async for i in bot.iter_participants(event.chat_id, aggressive=True):
         p = p + 1
-        #
-        # Note that it's "reversed". You must set to ``True`` the permissions
-        # you want to REMOVE, and leave as ``None`` those you want to KEEP.
-        rights = ChannelBannedRights(
+        rights = ChatBannedRights(
             until_date=None,
             view_messages=True
         )
@@ -100,7 +97,7 @@ async def _(event):
             w = w + 1
             if input_str == "w":
                 try:
-                    await borg(EditBannedRequest(event.chat_id, i, rights))
+                    await bot(EditBannedRequest(event.chat_id, i, rights))
                     c = c + 1
                 except UserAdminInvalidError as exc:
                     await event.edit("I need admin priveleges to perform this action!")
@@ -141,7 +138,7 @@ async def _(event):
                 except:
                     e.append("ERROR")
     required_string = """Kicked {} / {} users
-Deleted Accounts: {}
+Deleted Accounts in this Chat!: {}
 UserStatusEmpty: {}
 UserStatusLastMonth: {}
 UserStatusLastWeek: {}
@@ -152,7 +149,7 @@ UserStatusRecently: {}
     await event.edit(required_string.format(c, p, d, y, m, w, o, q, r))
     await asyncio.sleep(5)
     await event.edit("""Total: {} users
-Deleted Accounts: {}
+Deleted Accounts in this Chat!: {}
 UserStatusEmpty: {}
 UserStatusLastMonth: {}
 UserStatusLastWeek: {}
